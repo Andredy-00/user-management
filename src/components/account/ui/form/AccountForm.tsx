@@ -21,10 +21,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         .eq('id', user?.id)
         .single()
 
-      if (error && status !== 406) {
-        console.log(error)
-        throw error
-      }
+      if (error && status !== 406) throw error
 
       if (data) {
         setFullname(data.full_name)
@@ -32,7 +29,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setWebsite(data.website)
         setAvatarUrl(data.avatar_url)
       }
-    } catch (error) {
+    } catch {
       alert('Error loading user data!')
     } finally {
       setLoading(false)
@@ -66,7 +63,7 @@ export default function AccountForm({ user }: { user: User | null }) {
       })
       if (error) throw error
       alert('Profile updated!')
-    } catch (error) {
+    } catch {
       alert('Error updating the data!')
     } finally {
       setLoading(false)
@@ -74,55 +71,79 @@ export default function AccountForm({ user }: { user: User | null }) {
   }
 
   return (
-    <div className="form-widget">
+    <div className="mx-auto max-w-md rounded-2xl border border-neutral-200 bg-white p-8 shadow-sm">
+      <h2 className="mb-6 text-xl font-semibold tracking-tight text-neutral-900">
+        Account settings
+      </h2>
 
-      {/* ... */}
+      <div className="space-y-5">
+        {/* Email */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-neutral-700">
+            Email
+          </label>
+          <input
+            type="text"
+            value={user?.email}
+            disabled
+            className="w-full rounded-lg border border-neutral-200 bg-neutral-100 px-4 py-2 text-sm text-neutral-500"
+          />
+        </div>
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user?.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullname || ''}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
+        {/* Full Name */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-neutral-700">
+            Full name
+          </label>
+          <input
+            type="text"
+            value={fullname || ''}
+            onChange={(e) => setFullname(e.target.value)}
+            className="w-full rounded-lg border border-neutral-200 px-4 py-2 text-sm outline-none transition focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900"
+          />
+        </div>
 
-      <div>
+        {/* Username */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-neutral-700">
+            Username
+          </label>
+          <input
+            type="text"
+            value={username || ''}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full rounded-lg border border-neutral-200 px-4 py-2 text-sm outline-none transition focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900"
+          />
+        </div>
+
+        {/* Website */}
+        <div>
+          <label className="mb-1 block text-sm font-medium text-neutral-700">
+            Website
+          </label>
+          <input
+            type="url"
+            value={website || ''}
+            onChange={(e) => setWebsite(e.target.value)}
+            className="w-full rounded-lg border border-neutral-200 px-4 py-2 text-sm outline-none transition focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900"
+          />
+        </div>
+
+        {/* Update button */}
         <button
-          className="button primary block"
           onClick={() => updateProfile({ fullname, username, website, avatar_url })}
           disabled={loading}
+          className="w-full rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? 'Loading ...' : 'Update'}
+          {loading ? 'Saving...' : 'Update profile'}
         </button>
-      </div>
 
-      <div>
+        {/* Sign out */}
         <form action="/api/auth/signout" method="post">
-          <button className="button block" type="submit">
+          <button
+            type="submit"
+            className="w-full rounded-lg border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-700 transition hover:bg-neutral-100"
+          >
             Sign out
           </button>
         </form>
