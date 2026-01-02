@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -37,5 +37,5 @@ export async function signUpAction(formData: FormData) {
     }
 
     revalidatePath('/', 'layout');
-    redirect('account');
+    redirect('/account');
 }

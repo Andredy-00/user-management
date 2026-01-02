@@ -1,6 +1,6 @@
 import { loginAction, signUpAction } from "@/actions/auth/authAction"
 
-export const LoginForm = () => {
+export const AuthForm = () => {
     return (
         <form>
             <label htmlFor="email">Email:</label>
