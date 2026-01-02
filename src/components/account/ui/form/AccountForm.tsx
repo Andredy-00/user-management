@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { type User } from '@supabase/supabase-js'
 import { error } from 'console'
+import { Avatar } from '../Avatar'
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient()
@@ -63,7 +64,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         updated_at: new Date().toISOString(),
       })
       if (error) {
-        if(error.message.includes('profiles_username_key')){
+        if (error.message.includes('profiles_username_key')) {
           alert("El usuario que ingresaste ya esta en uso")
           return
         }
@@ -71,7 +72,7 @@ export default function AccountForm({ user }: { user: User | null }) {
       }
       alert('Profile updated!')
     } catch {
-      alert('Error updating the data!' )
+      alert('Error updating the data!')
     } finally {
       setLoading(false)
     }
@@ -91,6 +92,17 @@ export default function AccountForm({ user }: { user: User | null }) {
 
       {/* Content */}
       <div className="space-y-6 px-8 py-6">
+        {/* Avatar */}
+        <Avatar
+          uid={user?.id ?? null}
+          url={avatar_url}
+          size={150}
+          onUpload={(url) => {
+            setAvatarUrl(url)
+            updateProfile({ fullname, username, website, avatar_url: url })
+          }}
+        />
+
         {/* Email */}
         <div>
           <label className="mb-1.5 block text-sm font-medium text-neutral-700">
