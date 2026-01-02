@@ -13,12 +13,12 @@ export default function ErrorPage() {
 
         {/* Title */}
         <h1 className="mb-2 text-2xl font-semibold tracking-tight text-neutral-900">
-          Something went wrong
+          Algo salió mal
         </h1>
 
         {/* Description */}
         <p className="mb-8 text-sm text-neutral-600">
-          An unexpected error occurred. Please try again or return to the homepage.
+          Se produjo un error inesperado. Inténtalo de nuevo o vuelve a la página de inicio.
         </p>
 
         {/* Actions */}
@@ -27,14 +27,14 @@ export default function ErrorPage() {
             href="/"
             className="rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
           >
-            Go home
+            Ir a Inicio
           </Link>
 
           <button
             onClick={() => window.location.reload()}
             className="rounded-lg border border-neutral-200 px-4 py-2.5 text-sm font-medium text-neutral-700 transition hover:bg-neutral-100"
           >
-            Reload page
+            Recargar página
           </button>
         </div>
       </div>

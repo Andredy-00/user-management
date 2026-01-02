@@ -15,6 +15,10 @@ export async function loginAction(formData: FormData) {
     const { error } = await supabase.auth.signInWithPassword(data);
 
     if(error){
+        console.error(error.message)
+        if(error.message === "Email not confirmed"){
+            redirect('/check-email')
+        }
         redirect('/error');
     }
 
@@ -30,10 +34,16 @@ export async function signUpAction(formData: FormData) {
         password: formData.get('password') as string,
     }
 
-    const { error } = await supabase.auth.signUp(data);
+    const { data:signUpData, error } = await supabase.auth.signUp(data);
 
     if(error) {
+        console.error("Auth error: ", error.message);
         redirect('/error');
+    }
+
+    // Si no hay session debe confirmar el email
+    if(!signUpData.session){
+        redirect('/check-email')
     }
 
     revalidatePath('/', 'layout');
